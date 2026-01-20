@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  backend:
+    image: python:3.11-slim
+    container_name: smart-recipe-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=Europe/Paris
+    command: python app/main.py
+    restart: unless-stopped
