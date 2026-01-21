@@ -12,5 +12,27 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - TZ=Europe/Paris
-    command: python app/main.py
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
+  frontend:
+    image: caddy:2
+    container_name: smart-recipe-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend/src:/usr/share/caddy
+    restart: unless-stopped
+
+  proxy:
+    image: caddy:2
+    container_name: smart-recipe-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend/src:/usr/share/caddy
+    depends_on:
+      - backend
     restart: unless-stopped

@@ -1,0 +1,10 @@
+
+:80 {
+    root * /usr/share/caddy
+    file_server
+}
+
+
+/api/* {
+    reverse_proxy smart-recipe-backend:8000
+}
