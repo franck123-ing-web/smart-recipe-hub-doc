@@ -1,0 +1,10 @@
+<form action="http://127.0.0.1:8000/reset" method="post">
+  <input type="hidden" name="token" id="token">
+  <input type="password" name="password" placeholder="Nouveau mot de passe" required>
+  <button>Réinitialiser</button>
+</form>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+document.getElementById("token").value = params.get("token");
+</script>
