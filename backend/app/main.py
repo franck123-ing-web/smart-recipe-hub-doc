@@ -31,3 +31,18 @@ def login(email: str = Form(...), password: str = Form(...)):
         return {"success": True, "message": "Connexion réussie !"}
     else:
         return {"success": False, "message": "Email ou mot de passe incorrect."}
+
+@app.post("/register")
+def register(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
+    cursor = db.cursor()
+
+    # Vérifier si l'email existe
+    cursor.execute("SELECT id FROM users WHERE email=%s", (email,))
+    if cursor.fetchone():
+        return {"success": False, "message": "Email déjà utilisé"}
+
+    sql = "INSERT INTO users (email, password) VALUES (%s, %s)"
+    cursor.execute(sql, (email, password))
+    db.commit()
+
+    return {"success": True, "message": "Compte créé avec succès"}
