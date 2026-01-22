@@ -105,21 +105,50 @@ button:hover {
               <h1>Smart Recipe Hub</h1>
     <h1>Créer un compte</h1>
     
-    <form action="http://127.0.0.1:8000/register" method="post">
-        <div class="input-group">
-            <input type="text" name="name" placeholder="Nom complet" required>
-        </div>
-        <div class="input-group">
-            <input type="email" name="email" placeholder="Email" required>
-        </div>
-        <div class="input-group">
-            <input type="password" name="password" placeholder="Mot de passe" required>
-        </div>
-        <button type="submit">S’inscrire</button>
-        <div class="switch">
-            <a href="login.html">Déjà un compte ? Se connecter</a>
-        </div>
-    </form>
+    <form id="registerForm">
+    <div class="input-group">
+        <input type="text" name="name" placeholder="Nom complet" required>
+    </div>
+    <div class="input-group">
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+        <input type="password" name="password" placeholder="Mot de passe" required>
+    </div>
+    <button type="submit">S’inscrire</button>
+    <div class="switch">
+        <a href="login.html">Déjà un compte ? Se connecter</a>
+    </div>
+</form>
+
+<script>
+// Intercepte le submit
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    e.preventDefault(); // empêche le submit classique
+
+    const formData = new FormData(this);
+    
+    // Envoie la requête POST au backend
+    fetch("http://127.0.0.1:8000/register", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            alert("Inscription réussie ! Vous allez être redirigé vers la page de connexion.");
+            window.location.href = "login.html"; // redirection
+        } else {
+            alert("Erreur : " + (data.message || "Impossible de s'inscrire."));
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Une erreur est survenue lors de l'inscription.");
+    });
+});
+</script>
+
 </div>
 </body>
 </html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Smart Recipe Hub - Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+
+/* --- BODY --- */
+body, html {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    scroll-behavior: smooth;
+}
+
+@keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 50px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: sticky;
+    top:0;
+    z-index: 10;
+    border-radius:0 0 20px 20px;
+}
+
+.navbar h1 { font-size:24px; color:#333; }
+
+.navbar .nav-links {
+    display:flex;
+    gap:20px;
+}
+
+.navbar .nav-links a {
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.navbar .nav-links a:hover {
+    color:#6a11cb;
+}
+
+.navbar .cta-btn {
+    background: #6a11cb;
+    color:#fff;
+    padding:8px 20px;
+    border-radius:50px;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.navbar .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* --- HERO --- */
+.hero {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:80vh;
+    color:#fff;
+    padding:0 20px;
+}
+
+.hero h2 {
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero p {
+    font-size:18px;
+    margin-bottom:30px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+
+.hero .btn-group button {
+    padding:12px 30px;
+    margin:0 10px;
+    border:none;
+    border-radius:50px;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.hero .btn-group .primary-btn {
+    background: #ff7e5f;
+    color:#fff;
+}
+
+.hero .btn-group .primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.hero .btn-group .secondary-btn {
+    background: #fff;
+    color:#6a11cb;
+}
+
+.hero .btn-group .secondary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* --- SECTIONS --- */
+.section {
+    padding:80px 50px;
+    background:#f5f5f5;
+}
+
+.section h3 {
+    font-size:32px;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:50px;
+    color:#333;
+}
+
+.cards-container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.card {
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow:0 25px 50px rgba(0,0,0,0.2);
+}
+
+.card img {
+    width:100%;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.card h4 { font-size:20px; margin-bottom:10px; color:#333; }
+
+.card p { font-size:14px; color:#555; }
+
+/* --- FOOTER --- */
+footer {
+    background:#333;
+    color:#fff;
+    text-align:center;
+    padding:30px 20px;
+}
+
+footer a {
+    color:#ff7e5f;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+footer a:hover {
+    text-decoration:underline;
+}
+
+/* --- RESPONSIVE --- */
+@media(max-width:768px){
+    .navbar { padding:15px 20px; flex-direction:column; gap:15px; }
+    .hero h2 { font-size:36px; }
+    .hero p { font-size:16px; }
+    .section { padding:50px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h1>Smart Recipe Hub</h1>
+    <div class="nav-links">
+        <a href="#recipes">Mes Recettes</a>
+        <a href="#recommendations">Recommandations IA</a>
+        <a href="login.html">Connexion</a>
+    </div>
+    <button class="cta-btn" onclick="window.location.href='register.html'">Créer un compte</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h2>Bienvenue sur Smart Recipe Hub</h2>
+    <p>Découvrez, gérez et laissez notre IA vous recommander vos recettes préférées.</p>
+    <div class="btn-group">
+        <button class="primary-btn" onclick="window.location.href='dashboard.html'">Voir mes recettes</button>
+        <button class="secondary-btn" onclick="window.location.href='register.html'">Créer un compte</button>
+    </div>
+</div>
+
+<!-- MES RECETTES SECTION -->
+<div class="section" id="recipes">
+    <h3>Mes Recettes</h3>
+    <div class="cards-container">
+        <!-- Exemples de cards -->
+        <div class="card">
+            <img src="https://i.ytimg.com/vi/yvPqncJkVT4/maxresdefault.jpg" alt="">
+            <h4>Pilé de pomme</h4>
+            <p>Ingrédients par personne :
+
+1 grosse pomme de terre
+
+50 g de haricots (noirs ou autres)
+
+1 cueille à soupe huile de palme
+
+Sel
+
+Piment (facultatif)
+
+Exemple : pour 4 personnes → 4 pommes de terre, 200 g haricots, 4 cueille à soupe huile de palme.
+
+Préparation :
+
+Cuire les haricots : tremper puis bouillir 30 min (cocotte-minute) ou 2 h (casserole) avec sel.
+
+Cuire les pommes de terre : éplucher, couper, cuire 20 min avec sel et piment.
+
+Mélanger et piler : ajouter pommes de terre + haricots + un peu d’eau de cuisson + huile de palme, écraser au pilon ou presse-purée jusqu’à consistance lisse.
+
+Servir chaud
+</p>
+        </div>
+        <div class="card">
+            <img src="https://gradfood.com/wp-content/uploads/2020/09/Moroccan-Chicken-Pastilla-scaled.jpg" alt="">
+            <h4>pastilla marocaine</h4>
+            <p>Ingrédients par personne :
+
+120 g poulet
+
+½ oignon
+
+1 œuf
+
+15 g amandes concassées
+
+1 c. à s. sucre glace
+
+1 pincée cannelle
+
+2 feuilles de brick
+
+1 c. à s. beurre fondu
+
+Sel, poivre
+
+Épices (gingembre, curcuma, safran ou ras el hanout)
+
+Exemple : pour 4 personnes → 480 g poulet, 2 oignons, 4 œufs, 8 feuilles de brick…
+
+Préparation rapide :
+
+Dorer le poulet dans l’huile, saler, poivrer, réserver.
+
+Faire revenir l’oignon, ajouter épices + eau, remettre le poulet, laisser réduire de moitié.
+
+Effilocher le poulet.
+
+Ajouter les œufs dans la sauce chaude, mélanger (ça fait des œufs brouillés).
+
+Mélange amandes : amandes + sucre glace + cannelle.
+
+Montage : bricks + beurre → poulet → œufs → amandes → refermer.
+
+Four 180°C, 20 min jusqu’à doré.
+
+Finition : sucre glace + cannelle.</p>
+        </div>
+    </div>
+</div>
+
+<!-- RECOMMANDATIONS SECTION -->
+<div class="section" id="recommendations">
+    <h3>Recommandations IA</h3>
+    <div class="cards-container">
+        <div class="card">
+            <img src="https://i.ytimg.com/vi/cbAf7Nmtvig/maxresdefault.jpg" alt="">
+            <h4>Eru</h4>
+            <p>Notre IA vous recommande cette recette en fonction de vos préférences: Ingrédients par personne :
+
+100 g feuilles d’eru (ou okok)
+
+50 g waterleaf (ou épinards)
+
+50 g viande (bœuf, chèvre ou poisson fumé)
+
+20 g kanda (peau de bœuf, facultatif)
+
+1 c. à s. huile de palme
+
+1 petite crevette sèche pilée (ou poisson sec)
+
+Sel, piment
+
+Exemple : pour 4 personnes → 400 g eru, 200 g waterleaf, 200 g viande, 4 c. à s. huile de palme…
+
+Préparation rapide :
+
+Cuire viande + kanda avec sel et un peu d’eau (30–45 min).
+
+Ajouter poisson sec/crevettes, puis waterleaf, laisser fondre 5 min.
+
+Ajouter eru + huile de palme, remuer et cuire encore 10 min.
+
+Rectifier sel/piment et servir chaud avec fufu, water fufu ou gari.</p>
+        </div>
+        <div class="card">
+            <img src="https://bonappetitfrancais.com/wp-content/uploads/2023/10/Comment-faire-le-koki-camerounais-recette-traditionnelle-et-astuces.jpg" alt="">
+            <h4>KOKI</h4>
+            <p>Essayez cette recette que notre IA a sélectionnée pour vous: Ingrédients par personne :
+
+100 g haricots (niébé)
+
+1 c. à s. huile de palme
+
+1 c. à c. huile rouge chaude (pour la couleur)
+
+½ oignon
+
+Sel
+
+Piment (facultatif)
+
+Feuilles de bananier (ou papier cuisson)
+
+Exemple : pour 4 personnes → 400 g haricots, 4 c. à s. huile de palme, 2 oignons…
+
+Préparation rapide :
+
+Tremper + mixer les haricots décortiqués avec oignon, sel, piment.
+
+Ajouter huile de palme + huile rouge, bien mélanger.
+
+Verser dans feuilles, bien fermer.
+
+Cuire à la vapeur 45–60 min.
+
+Servir avec plantain, manioc</p>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    &copy; 2026 Smart Recipe Hub | <a href="login.html">Connexion</a> | <a href="register.html">Créer un compte</a>
+</footer>
+
+</body>
+</html>
