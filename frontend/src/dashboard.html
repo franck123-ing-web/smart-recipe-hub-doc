@@ -124,13 +124,33 @@ body, html {
     .navbar { padding:15px 20px; }
     .container { padding:20px; gap:15px; }
 }
+
 </style>
 </head>
-<body>
+<div id="recommendModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:50;">
+    <div style="background:white; width:80%; max-width:700px; margin:80px auto; padding:20px; border-radius:20px;">
+        <h2>🍽️ Recommandations IA</h2>
+        <div id="recommendList"></div>
+        <button onclick="closeRecommend()" style="margin-top:15px; background:#ff6b6b; color:white; padding:8px 15px; border:none; border-radius:20px;">
+            Fermer
+        </button>
+    </div>
+</div>
 
+<body>
 <div class="navbar">
     <h1>Smart Recipe Hub</h1>
-    <button class="logout" onclick="logout()">Déconnexion</button>
+    <div>
+        <button onclick="loadRecipes()" style="margin-right:10px; padding:8px 20px; border-radius:50px; border:none; background:#2575fc; color:#fff; cursor:pointer;">
+            Actualiser
+        </button>
+        <button class="logout" onclick="logout()">Déconnexion</button>
+    </div>
+</div>
+
+<div id="searchForm" style="margin-bottom:20px;">
+    <input type="text" id="searchInput" placeholder="Ex: tomate, oeuf, fromage" style="width:60%; padding:10px; border-radius:10px; border:1px solid #ddd;" onkeypress="handleSearch(event)">
+    <button onclick="searchRecipes()" style="padding:10px 20px; border:none; border-radius:50px; background:#2575fc; color:#fff; cursor:pointer;">Rechercher</button>
 </div>
 
 <div id="addRecipeForm">
@@ -153,33 +173,91 @@ if(!userId){
     window.location.href = "login.html"; // redirection si pas connecté
 }
 
+function handleSearch(e){
+    if(e.key === "Enter"){
+        searchRecipes();
+    }
+}
+
+function searchRecipes(){
+    const ingredients = document.getElementById("searchInput").value;
+
+    if(!ingredients){
+        loadRecipes();
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8000/recipes/search?ingredients=${encodeURIComponent(ingredients)}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            renderRecipes(data.recipes);
+        }
+    })
+    .catch(err => console.error(err));
+}
+
 // --- FETCH RECIPES ---
 function loadRecipes(){
     fetch(`http://127.0.0.1:8000/recipes/${userId}`)
     .then(res => res.json())
     .then(data => {
         if(data.success){
-            const container = document.getElementById("recipeContainer");
-            container.innerHTML = "";
-            data.recipes.forEach(r => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-        <img src="${r.image_url || 'https://cdn-icons-png.flaticon.com/512/3081/3081808.png'}" alt="${r.title}">
-        <h3>${r.title}</h3>
-        <p>${r.description}</p>
-        <button class="edit-btn" onclick="editRecipe(${r.id})">Modifier</button>
-        <button class="delete-btn" onclick="deleteRecipe(${r.id})">Supprimer</button>
-    `;
-    container.appendChild(card);
-});
-
+            renderRecipes(data.recipes);
         }
-    }).catch(err => console.error(err));
+    })
+    .catch(err => console.error(err));
 }
-loadRecipes();
+// --- DELETE RECIPE ---
+function deleteRecipe(id){
+    if(!confirm("Voulez-vous vraiment supprimer cette recette ?")) return;
 
-let editingRecipeId = null;
+    const formData = new FormData();
+    formData.append("recipe_id", id);
+
+    fetch("http://127.0.0.1:8000/recipes/delete", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            alert(data.message);
+            loadRecipes();
+        } else {
+            alert("Erreur lors de la suppression");
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+function showRecommendations(id){
+    fetch(`http://127.0.0.1:8000/recipes/recommend/${id}`)
+    .then(res => res.json())
+    .then(data => {
+        if(!data.success) return alert("Aucune recommandation");
+
+        const list = document.getElementById("recommendList");
+        list.innerHTML = "";
+
+        data.recommended.forEach(r => {
+            const div = document.createElement("div");
+            div.style.marginBottom = "10px";
+            div.innerHTML = `
+                <b>${r.title}</b><br>
+                <small>${r.description}</small>
+                <hr>
+            `;
+            list.appendChild(div);
+        });
+
+        document.getElementById("recommendModal").style.display = "block";
+    });
+}
+
+function closeRecommend(){
+    document.getElementById("recommendModal").style.display = "none";
+}
 
 // --- ADD OR UPDATE RECIPE ---
 function submitRecipe() {
@@ -253,7 +331,27 @@ function resetForm() {
     document.getElementById("submitBtn").innerText = "Ajouter";
     document.getElementById("cancelEditBtn").style.display = "none";
 }
+function renderRecipes(list){
+    const container = document.getElementById("recipeContainer");
+    container.innerHTML = "";
 
+    list.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="${r.image_url || 'https://cdn-icons-png.flaticon.com/512/3081/3081808.png'}">
+            <h3>${r.title}</h3>
+            <p>${r.description}</p>
+
+            <button class="edit-btn" onclick="editRecipe(${r.id})">Modifier</button>
+            <button class="delete-btn" onclick="deleteRecipe(${r.id})">Supprimer</button>
+            <button class="edit-btn" style="background:#6a11cb" onclick="showRecommendations(${r.id})">
+                Voir recommandations
+            </button>
+        `;
+        container.appendChild(card);
+    });
+}
 
 // --- LOGOUT ---
 function logout(){
@@ -261,7 +359,10 @@ function logout(){
     localStorage.removeItem("userEmail");
     window.location.href="login.html";
 }
+loadRecipes();
 </script>
+
+
 
 </body>
 </html>

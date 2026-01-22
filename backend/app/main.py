@@ -4,6 +4,8 @@ import pymysql
 from fastapi.middleware.cors import CORSMiddleware
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -102,6 +104,27 @@ def reset(token: str = Form(...), password: str = Form(...)):
 
     return {"success": True, "message": "Mot de passe mis à jour"}
 # GET toutes les recettes d'un utilisateur
+
+@app.get("/recipes/search")
+def search_recipes(ingredients: str):
+    """
+    ingredients: chaîne de caractères séparée par des virgules
+    Exemple: "tomate,oeuf,fromage"
+    """
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+    ing_list = [ing.strip() for ing in ingredients.split(",")]
+
+    # Créer la clause SQL pour chaque ingrédient
+    where_clause = " OR ".join(["title LIKE %s OR description LIKE %s" for _ in ing_list])
+    params = []
+    for ing in ing_list:
+        params.extend([f"%{ing}%", f"%{ing}%"])
+
+    sql = f"SELECT * FROM recipes WHERE {where_clause} ORDER BY created_at DESC"
+    cursor.execute(sql, params)
+    results = cursor.fetchall()
+    return {"success": True, "recipes": results}
+
 @app.get("/recipes/{user_id}")
 def get_recipes(user_id: int):
     cursor = db.cursor(pymysql.cursors.DictCursor)
@@ -145,3 +168,28 @@ def delete_recipe(recipe_id: int = Form(...)):
     cursor.execute("DELETE FROM recipes WHERE id=%s", (recipe_id,))
     db.commit()
     return {"success": True, "message": "Recette supprimée !"}
+
+
+@app.get("/recipes/recommend/{recipe_id}")
+def recommend_recipes(recipe_id: int):
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("SELECT * FROM recipes")
+    recipes = cursor.fetchall()
+
+    if not recipes:
+        return {"success": False, "message": "Pas de recettes"}
+
+    texts = [r['title'] + " " + r['description'] for r in recipes]
+
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(texts)
+
+    idx = next((i for i, r in enumerate(recipes) if r["id"] == recipe_id), None)
+    if idx is None:
+        return {"success": False, "message": "Recette introuvable"}
+
+    cosine_sim = linear_kernel(tfidf_matrix[idx:idx+1], tfidf_matrix).flatten()
+    similar_indices = cosine_sim.argsort()[::-1][1:6]
+
+    recommended = [recipes[i] for i in similar_indices]
+    return {"success": True, "recommended": recommended}
