@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  up:
+    desc: "Démarrer tous les services"
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: "Arrêter tous les services"
+    cmds:
+      - docker compose down
+
+  build:
+    desc: "Rebuild tous les services"
+    cmds:
+      - docker compose build
+
+  logs:
+    desc: "Afficher les logs"
+    cmds:
+      - docker compose logs -f
+
+  restart:
+    desc: "Redémarrer tous les services"
+    cmds:
+      - docker compose restart
