@@ -241,9 +241,12 @@ let editingRecipeId = null;
 if(!userId){
     window.location.href = "login.html"; // redirection si pas connecté
 }
+
+const API_BASE = "https://tiringly-relational-lilyana.ngrok-free.dev";
+
 function viewRecipe(id) {
     // On récupère la recette correspondante
-    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    fetch(`${API_BASE}/${userId}`)
     .then(res => res.json())
     .then(data => {
         const recipe = data.recipes.find(r => r.id === id);
@@ -287,7 +290,7 @@ function searchRecipes(){
         return;
     }
 
-    fetch(`http://127.0.0.1:8000/recipes/search?ingredients=${encodeURIComponent(ingredients)}`)
+    fetch(`${API_BASE}=${encodeURIComponent(ingredients)}`)
     .then(res => res.json())
     .then(data => {
         if(data.success){
@@ -299,7 +302,7 @@ function searchRecipes(){
 
 // --- FETCH RECIPES ---
 function loadRecipes(){
-    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    fetch(`${API_BASE}/${userId}`)
     .then(res => res.json())
     .then(data => {
         if(data.success){
@@ -315,7 +318,7 @@ function deleteRecipe(id){
     const formData = new FormData();
     formData.append("recipe_id", id);
 
-    fetch("http://127.0.0.1:8000/recipes/delete", {
+    fetch("${API_BASE}/recipes/delete", {
         method: "POST",
         body: formData
     })
@@ -332,7 +335,7 @@ function deleteRecipe(id){
 }
 
 function showRecommendations(id){
-    fetch(`http://127.0.0.1:8000/recipes/recommend/${id}`)
+    fetch(`${API_BASE}/recipes/recommend/${id}`)
     .then(res => res.json())
     .then(data => {
         if(!data.success) return alert("Aucune recommandation");
@@ -371,8 +374,8 @@ function submitRecipe() {
     }
 
     const url = editingRecipeId 
-        ? "http://127.0.0.1:8000/recipes/update"
-        : "http://127.0.0.1:8000/recipes/add";
+        ? "${API_BASE}/recipes/update"
+        : "${API_BASE}/recipes/add";
 
     const body = editingRecipeId 
         ? `recipe_id=${editingRecipeId}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image_url=${encodeURIComponent(image_url)}`
@@ -398,7 +401,7 @@ document.getElementById("submitBtn").onclick = submitRecipe;
 // --- EDIT RECIPE ---
 function editRecipe(id) {
     // Récupérer la recette à modifier depuis le backend
-    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    fetch(`${API_BASE}/recipes/${userId}`)
     .then(res => res.json())
     .then(data => {
         const recipe = data.recipes.find(r => r.id === id);

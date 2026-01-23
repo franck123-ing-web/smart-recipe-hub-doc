@@ -36,6 +36,8 @@ button{
 </div>
 
 <script>
+    const API_BASE = "https://tiringly-relational-lilyana.ngrok-free.dev";
+
 const params=new URLSearchParams(window.location.search);
 const token=params.get("token");
 
@@ -45,7 +47,7 @@ function resetPass(){
     form.append("token",token);
     form.append("password",password);
 
-    fetch("http://127.0.0.1:8000/reset",{
+    fetch("${API_BASE}/reset",{
         method:"POST",
         body:form
     })
