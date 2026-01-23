@@ -38,14 +38,12 @@ button{
 </div>
 
 <script>
-    
 function sendReset(){
     const email=document.getElementById("email").value;
     const form=new FormData();
     form.append("email",email);
-const API_BASE = "https://tiringly-relational-lilyana.ngrok-free.dev";
 
-    fetch("${API_BASE}/forgot",{
+    fetch("http://127.0.0.1:8000/forgot",{
         method:"POST",
         body:form
     })

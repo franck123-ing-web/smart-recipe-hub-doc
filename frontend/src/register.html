@@ -122,8 +122,7 @@ button:hover {
 </form>
 
 <script>
-    const API_BASE = "https://tiringly-relational-lilyana.ngrok-free.dev";
-
+    
 // Intercepte le submit
 document.getElementById("registerForm").addEventListener("submit", function(e){
     e.preventDefault(); // empêche le submit classique
@@ -131,7 +130,7 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
     const formData = new FormData(this);
     
     // Envoie la requête POST au backend
-    fetch("${API_BASE}/register", {
+    fetch("http://127.0.0.1:8000/register", {
         method: "POST",
         body: formData
     })
