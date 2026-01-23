@@ -186,6 +186,18 @@ footer a {
 footer a:hover {
     text-decoration:underline;
 }
+.navbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar .logo {
+    width: 60px;   
+    height: 60px;
+    background: url('logo.jpg') no-repeat center/contain;
+    border-radius: 50%;
+}
 
 /* --- RESPONSIVE --- */
 @media(max-width:768px){
@@ -200,7 +212,11 @@ footer a:hover {
 
 <!-- NAVBAR -->
 <div class="navbar">
+    <div class="brand">
+    <div class="logo"></div>
     <h1>Smart Recipe Hub</h1>
+</div>
+
     <div class="nav-links">
         <a href="#recipes">Mes Recettes</a>
         <a href="#recommendations">Recommandations IA</a>
