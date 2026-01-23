@@ -127,46 +127,21 @@ body, html {
 
 </style>
 </head>
-<div id="recommendModal" style="
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    z-index:50;
+<div id="recommendModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:50;">
+    <div style="
+    background:white;
+    width:80%;
+    max-width:700px;
+    margin:80px auto;
+    padding:20px;
+    border-radius:20px;
+    max-height:70vh;
+    overflow-y:auto;
 ">
 
-    <div style="
-        background:white;
-        width:90%;
-        max-width:1000px;
-        height:85vh;
-        margin:5vh auto;
-        padding:30px;
-        border-radius:20px;
-        display:flex;
-        flex-direction:column;
-    ">
-
-        <h2 style="margin-bottom:15px;">🍽️ Recommandations IA</h2>
-
-        <div id="recommendList" style="
-            flex:1;
-            overflow-y:auto;
-            padding-right:10px;
-        "></div>
-
-        <button onclick="closeRecommend()" style="
-            margin-top:20px;
-            align-self:flex-end;
-            background:#ff6b6b;
-            color:white;
-            padding:10px 20px;
-            border:none;
-            border-radius:20px;
-            cursor:pointer;
-        ">
+        <h2>🍽️ Recommandations IA</h2>
+        <div id="recommendList"></div>
+        <button onclick="closeRecommend()" style="margin-top:15px; background:#ff6b6b; color:white; padding:8px 15px; border:none; border-radius:20px;">
             Fermer
         </button>
     </div>
@@ -194,7 +169,8 @@ body, html {
     <input type="text" id="title" placeholder="Titre de la recette">
     <textarea id="description" placeholder="Description"></textarea>
     <input type="text" id="image_url" placeholder="URL de l'image">
-    <button id="submitBtn" onclick="addRecipe()">Ajouter</button>
+    <button id="submitBtn">Ajouter</button>
+
     <button id="cancelEditBtn" onclick="cancelEdit()" style="display:none; margin-left:10px;">Annuler</button>
 </div>
 
@@ -205,6 +181,8 @@ body, html {
 <script>
 // --- USER INFO ---
 const userId = localStorage.getItem("userId");
+let editingRecipeId = null;
+
 if(!userId){
     window.location.href = "login.html"; // redirection si pas connecté
 }

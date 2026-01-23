@@ -1,13 +1,20 @@
 version: "3.9"
 
 services:
+
+  cloudflare:
+    image: cloudflare/cloudflared:latest
+    container_name: smart-recipe-cloudflare
+    command: proxy-dns
+    restart: unless-stopped
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: smart-recipe-backend
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - PYTHONUNBUFFERED=1
       - TZ=Europe/Paris
@@ -18,8 +25,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: smart-recipe-frontend
-    ports:
-      - "3000:80"
+    expose:
+      - "80"
     restart: unless-stopped
 
   proxy:
@@ -27,10 +34,10 @@ services:
     container_name: smart-recipe-proxy
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./proxy/Caddyfile:/etc/caddy/Caddyfile
     depends_on:
+      - cloudflare
       - backend
       - frontend
     restart: unless-stopped
