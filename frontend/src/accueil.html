@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Smart Recipe Hub - Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+
+/* --- BODY --- */
+body, html {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    scroll-behavior: smooth;
+}
+
+@keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 50px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: sticky;
+    top:0;
+    z-index: 10;
+    border-radius:0 0 20px 20px;
+}
+
+.navbar h1 { font-size:24px; color:#333; }
+
+.navbar .nav-links {
+    display:flex;
+    gap:20px;
+}
+
+.navbar .nav-links a {
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.navbar .nav-links a:hover {
+    color:#6a11cb;
+}
+
+.navbar .cta-btn {
+    background: #6a11cb;
+    color:#fff;
+    padding:8px 20px;
+    border-radius:50px;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.navbar .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* --- HERO --- */
+.hero {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    height:80vh;
+    color:#fff;
+    padding:0 20px;
+}
+
+.hero h2 {
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero p {
+    font-size:18px;
+    margin-bottom:30px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+
+.hero .btn-group button {
+    padding:12px 30px;
+    margin:0 10px;
+    border:none;
+    border-radius:50px;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.hero .btn-group .primary-btn {
+    background: #ff7e5f;
+    color:#fff;
+}
+
+.hero .btn-group .primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.hero .btn-group .secondary-btn {
+    background: #fff;
+    color:#6a11cb;
+}
+
+.hero .btn-group .secondary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* --- SECTIONS --- */
+.section {
+    padding:80px 50px;
+    background:#f5f5f5;
+}
+
+.section h3 {
+    font-size:32px;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:50px;
+    color:#333;
+}
+
+.cards-container {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.card {
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow:0 25px 50px rgba(0,0,0,0.2);
+}
+
+.card img {
+    width:100%;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.card h4 { font-size:20px; margin-bottom:10px; color:#333; }
+
+.card p { font-size:14px; color:#555; }
+
+/* --- FOOTER --- */
+footer {
+    background:#333;
+    color:#fff;
+    text-align:center;
+    padding:30px 20px;
+}
+
+footer a {
+    color:#ff7e5f;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+footer a:hover {
+    text-decoration:underline;
+}
+.navbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar .logo {
+    width: 60px;   
+    height: 60px;
+    background: url('logo.jpg') no-repeat center/contain;
+    border-radius: 50%;
+}
+
+/* --- RESPONSIVE --- */
+@media(max-width:768px){
+    .navbar { padding:15px 20px; flex-direction:column; gap:15px; }
+    .hero h2 { font-size:36px; }
+    .hero p { font-size:16px; }
+    .section { padding:50px 20px; }
+}
+/* --- BOUTON VOIR LA RECETTE --- */
+.view-btn {
+    background: #6a11cb;        /* violet flashy */
+    color: #fff;                /* texte blanc */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+    background: #2575fc;        /* violet -> bleu au survol */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+</style>
+</head>
+<body>
+<div id="recipeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:100;">
+    <div style="
+        background:white;
+        width:90%;
+        max-width:900px;
+        height:90vh;
+        margin:30px auto;
+        padding:30px;
+        border-radius:20px;
+        overflow-y:auto;
+        position: relative;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    ">
+        <h2 id="modalTitle" style="margin-bottom:20px;"></h2>
+        <img id="modalImage" src="" style="width:100%; max-height:300px; object-fit:cover; border-radius:15px; margin-bottom:20px;">
+        <p id="modalDescription" style="font-size:16px; line-height:1.6;"></p>
+        <button onclick="closeRecipeModal()" style="
+            margin-top:20px;
+            background:#ff6b6b;
+            color:white;
+            padding:10px 20px;
+            border:none;
+            border-radius:25px;
+            cursor:pointer;
+            font-size:16px;
+        ">
+            Fermer
+        </button>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="brand">
+    <div class="logo"></div>
+    <h1>Smart Recipe Hub</h1>
+</div>
+
+    <div class="nav-links">
+        <a href="#recipes">Mes Recettes</a>
+        <a href="#recommendations">Recommandations IA</a>
+        <a href="login.html">Connexion</a>
+    </div>
+    <button class="cta-btn" onclick="window.location.href='register.html'">Créer un compte</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h2>Bienvenue sur Smart Recipe Hub</h2>
+    <p>Découvrez, gérez et laissez notre IA vous recommander vos recettes préférées.</p>
+    <div class="btn-group">
+        
+        <button class="secondary-btn" onclick="window.location.href='register.html'">Créer un compte</button>
+    </div>
+</div>
+
+<!-- MES RECETTES SECTION -->
+<div class="section" id="recipes">
+    <h3>Mes Recettes</h3>
+    <div class="cards-container">
+        <!-- Exemples de cards -->
+        <div class="card">
+            <img src="https://i.ytimg.com/vi/yvPqncJkVT4/maxresdefault.jpg" alt="">
+            <h4>Pilé de pomme</h4>
+            <p>Ingrédients par personne :
+
+1 grosse pomme de terre
+
+50 g de haricots (noirs ou autres)
+
+1 cueille à soupe huile de palme
+
+Sel
+
+Piment (facultatif)
+
+Exemple : pour 4 personnes → 4 pommes de terre, 200 g haricots, 4 cueille à soupe huile de palme.
+
+Préparation :
+
+Cuire les haricots : tremper puis bouillir 30 min (cocotte-minute) ou 2 h (casserole) avec sel.
+
+Cuire les pommes de terre : éplucher, couper, cuire 20 min avec sel et piment.
+
+Mélanger et piler : ajouter pommes de terre + haricots + un peu d’eau de cuisson + huile de palme, écraser au pilon ou presse-purée jusqu’à consistance lisse.
+
+Servir chaud
+</p> <button class="view-btn">Voir la recette</button>
+
+        </div>
+        <div class="card">
+    <img src="https://assets.afcdn.com/recipe/20190219/88013_w3072h2304c1cx1872cy2808.jpg" alt="">
+    <h4>Boeuf Bourguignon</h4>
+    <p>Ingrédients par personne :
+- 150 g bœuf à braiser
+- 50 g carottes
+- 50 g oignon
+- 100 ml vin rouge
+- 1 c. à s. huile
+- Sel, poivre, thym, laurier
+
+Exemple : pour 4 personnes → 600 g bœuf, 200 g carottes, 400 ml vin rouge.
+
+Préparation :
+1. Faire revenir le bœuf dans huile, saler, poivrer.
+2. Ajouter oignons, carottes et herbes, cuire 5 min.
+3. Ajouter vin rouge, couvrir et mijoter 2 h à feu doux.
+4. Servir chaud avec pommes de terre ou pâtes.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://cdn.mos.cms.futurecdn.net/jEwruhS7cXYtjjAXSHQAYe-614-80.jpg" alt="">
+    <h4>Gratin Dauphinois</h4>
+    <p>Ingrédients par personne :
+- 100 g pommes de terre
+- 50 ml crème fraîche
+- 20 g fromage râpé
+- ½ gousse d’ail
+- Sel, poivre, muscade
+
+Exemple : pour 4 personnes → 400 g pommes de terre, 200 ml crème, 80 g fromage.
+
+Préparation :
+1. Préchauffer four 180°C.
+2. Beurrer plat, frotter ail, disposer pommes de terre en tranches.
+3. Ajouter crème, sel, poivre, muscade, parsemer fromage.
+4. Cuire 35–40 min jusqu’à doré.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://assets.afcdn.com/recipe/20190529/93189_w1024h768c1cx2886cy4330cxt0cyt0cxb5773cyb8660.jpg" alt="">
+    <h4>Blanquette de Veau</h4>
+    <p>Ingrédients par personne :
+- 120 g veau
+- 50 g carottes
+- 50 g oignon
+- 50 ml crème fraîche
+- 1 c. à s. farine
+- Sel, poivre, citron
+
+Exemple : pour 4 personnes → 480 g veau, 200 g carottes, 200 ml crème.
+
+Préparation :
+1. Cuire veau + carottes + oignon avec eau et sel 40 min.
+2. Ajouter farine diluée + crème, cuire 10 min.
+3. Ajuster sel, poivre, un peu de jus de citron.
+4. Servir chaud avec riz ou pâtes.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+        <div class="card">
+    <img src="https://cuisine-gourmet.com/wp-content/uploads/2023/12/coq-au-vin.png" alt="">
+    <h4>Coq au Vin</h4>
+    <p>Ingrédients par personne :
+- 120 g poulet
+- 50 g lardons
+- 50 g champignons
+- 50 ml vin rouge
+- ½ oignon
+- 1 c. à s. huile
+- Sel, poivre, thym, laurier
+
+Exemple : pour 4 personnes → 480 g poulet, 200 g lardons, 200 g champignons, 200 ml vin rouge.
+
+Préparation :
+1. Faire revenir poulet + lardons dans huile.
+2. Ajouter oignon, champignons, herbes, sel et poivre.
+3. Verser vin rouge, couvrir et mijoter 40–45 min.
+4. Servir chaud avec pommes de terre ou pâtes.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://img.over-blog-kiwi.com/0/93/14/90/20150812/ob_29a180_salade-nicoise-thon-legumes-prov.jpg" alt="">
+    <h4>Salade Niçoise</h4>
+    <p>Ingrédients par personne :
+- 50 g thon
+- 1 œuf dur
+- 50 g haricots verts
+- 50 g tomate
+- ½ c. à s. huile d’olive
+- Sel, poivre, olives
+
+Exemple : pour 4 personnes → 200 g thon, 4 œufs, 200 g haricots verts, 200 g tomates.
+
+Préparation :
+1. Cuire haricots verts, œuf dur.
+2. Disposer légumes + thon + œuf + olives dans assiette.
+3. Assaisonner avec huile, sel et poivre.
+4. Servir frais.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://cdn.tasteatlas.com/Images/Dishes/6de2fb59207b4e54958663833c313b20.jpg" alt="">
+    <h4>Soupe à l’Oignon</h4>
+    <p>Ingrédients par personne :
+- 50 g oignon
+- 1 tranche pain
+- ½ c. à s. beurre
+- 100 ml bouillon de bœuf
+- Sel, poivre, fromage râpé
+
+Exemple : pour 4 personnes → 200 g oignons, 4 tranches de pain, 400 ml bouillon.
+
+Préparation :
+1. Faire revenir oignon émincé dans beurre jusqu’à doré.
+2. Ajouter bouillon, sel et poivre, cuire 10 min.
+3. Verser dans bol, ajouter tranche pain + fromage râpé.
+4. Passer au four 5 min, servir chaud.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://images.ctfassets.net/l9qj50bqgqik/4aWPZF46lyYSiUIS88aesa/d97495cf7038f37361c4f5e0aabe9908/iStock-519431474.jpg" alt="">
+    <h4>Crêpes Suzette</h4>
+    <p>Ingrédients par personne :
+- 50 g farine
+- 1 œuf
+- 100 ml lait
+- 10 g beurre fondu
+- 1 c. à c. sucre
+- Zeste d’orange et Grand Marnier (optionnel)
+
+Exemple : pour 4 personnes → 200 g farine, 4 œufs, 400 ml lait, 40 g beurre.
+
+Préparation :
+1. Mélanger farine + œuf + lait + beurre + sucre.
+2. Cuire crêpes dans poêle antiadhésive.
+3. Préparer sauce orange + Grand Marnier, verser sur crêpes.
+4. Servir chaud.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+        <div class="card">
+    <img src="https://img.taste.com.au/yzM49jFu/taste/2017/02/classic-quiche-lorraine-121391-2.jpg" alt="">
+    <h4>Quiche Lorraine</h4>
+    <p>Ingrédients par personne :
+- 1 tranche de pâte brisée
+- 50 g lardons
+- 1 œuf
+- 50 ml crème fraîche
+- Sel, poivre, muscade
+
+Exemple : pour 4 personnes → 4 tranches de pâte, 200 g lardons, 4 œufs, 200 ml crème.
+
+Préparation :
+1. Préchauffer four 180°C.
+2. Étaler pâte dans moule, ajouter lardons.
+3. Mélanger œuf + crème + sel, poivre, muscade, verser sur pâte.
+4. Cuire 25–30 min jusqu’à doré.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://www.cuisineetsentiments.com/images/recette-boeuf-bourguignon_10.jpg" alt="">
+    <h4>Bœuf Bourguignon</h4>
+    <p>Ingrédients par personne :
+- 150 g bœuf à braiser
+- 50 g carottes
+- 50 g oignon
+- 100 ml vin rouge
+- 1 c. à s. huile
+- Sel, poivre, thym, laurier
+
+Exemple : pour 4 personnes → 600 g bœuf, 200 g carottes, 400 ml vin rouge.
+
+Préparation :
+1. Faire revenir bœuf dans huile, saler, poivrer.
+2. Ajouter oignons, carottes, herbes, cuire 5 min.
+3. Ajouter vin, couvrir, mijoter 2 h à feu doux.
+4. Servir chaud avec pommes de terre ou pâtes.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://www.tables-auberges.com/storage/uploads/2023/07/AdobeStock_541273635-2-1024x683.jpeg" alt="">
+    <h4>Ratatouille</h4>
+    <p>Ingrédients par personne :
+- 50 g aubergine
+- 50 g courgette
+- 50 g poivron
+- 50 g tomate
+- 1 c. à s. huile d’olive
+- Sel, poivre, herbes de Provence
+
+Exemple : pour 4 personnes → 200 g aubergine, 200 g courgette, 200 g poivron, 200 g tomate.
+
+Préparation :
+1. Couper légumes en dés.
+2. Faire revenir aubergine + courgette + poivron dans huile.
+3. Ajouter tomates + sel, poivre, herbes, cuire 15–20 min.
+4. Servir chaud ou tiède.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+        <div class="card">
+    <img src="https://wfg22p.s3.amazonaws.com/media/dishes/thieboudienne_4839.jpg" alt="">
+    <h4>Thieboudienne (Sénégal)</h4>
+    <p>Ingrédients par personne :
+- 100 g riz
+- 50 g poisson
+- 50 g légumes (carotte, chou, aubergine)
+- 1 c. à s. huile
+- Sel, poivre, épices (thébou jën)
+
+Exemple : pour 4 personnes → 400 g riz, 200 g poisson, 200 g légumes.
+
+Préparation :
+1. Faire revenir le poisson avec huile et épices.
+2. Ajouter légumes et un peu d’eau, cuire 15 min.
+3. Ajouter riz, couvrir, cuire 20 min jusqu’à absorption.
+4. Servir chaud.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://www.196flavors.com/wp-content/uploads/2016/02/Akaras-4-FP.jpg" alt="">
+    <h4>Akara (Bénin/Nigeria)</h4>
+    <p>Ingrédients par personne :
+- 100 g haricots niébé décortiqués
+- ½ oignon
+- Sel, piment
+- Huile pour friture
+
+Exemple : pour 4 personnes → 400 g haricots, 2 oignons.
+
+Préparation :
+1. Tremper, mixer haricots + oignon + sel + piment.
+2. Former petites boules.
+3. Frire dans l’huile chaude jusqu’à doré.
+4. Servir chaud en apéritif ou petit-déj.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://lesgourmandisesdekarelle.com/wp-content/uploads/2016/08/Yassa-22.jpg" alt="">
+    <h4>Poulet Yassa (Sénégal)</h4>
+    <p>Ingrédients par personne :
+- 120 g poulet
+- ½ oignon
+- 1 c. à s. moutarde
+- 1 c. à s. huile
+- Sel, poivre, piment
+- Jus de citron
+
+Exemple : pour 4 personnes → 480 g poulet, 2 oignons.
+
+Préparation :
+1. Mariner poulet avec oignon, moutarde, citron, sel et poivre 30 min.
+2. Faire revenir poulet + marinade dans huile 20 min.
+3. Servir chaud avec riz.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://img.mesrecettesfaciles.fr/2023-07/mafe-senegalais-ppw-1200.webp" alt="">
+    <h4>Mafé (Sénégal/ Mali)</h4>
+    <p>Ingrédients par personne :
+- 100 g viande (bœuf, poulet)
+- 50 g légumes (carotte, chou, patate)
+- 2 c. à s. pâte d’arachide
+- ½ oignon
+- Sel, poivre, épices
+- Eau
+
+Exemple : pour 4 personnes → 400 g viande, 200 g légumes.
+
+Préparation :
+1. Cuire viande + oignon avec sel et épices.
+2. Ajouter légumes + pâte d’arachide + eau.
+3. Laisser mijoter 20–25 min.
+4. Servir chaud avec riz.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://img.cuisineaz.com/660x660/2016/10/19/i86063-doro-wat-sur-injera-ou-ragout-de-viande-epice-a-l-ethiopienne.jpg" alt="">
+    <h4>Injera avec Doro Wat (Éthiopie)</h4>
+    <p>Ingrédients par personne :
+- 1 injera (galette éthiopienne)
+- 100 g poulet
+- ½ oignon
+- 1 c. à s. berbere (épices)
+- Sel, huile
+
+Exemple : pour 4 personnes → 4 injera, 400 g poulet.
+
+Préparation :
+1. Cuire poulet + oignon + berbere + sel dans huile 20 min.
+2. Servir sur injera, enrouler avec sauce.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://www.sanjanafeasts.co.uk/wp-content/uploads/2019/04/matoke-f-1-1568x1045.jpg" alt="">
+    <h4>Matoke (Ouganda)</h4>
+    <p>Ingrédients par personne :
+- 2 bananes plantains vertes
+- 50 g viande hachée (facultatif)
+- 1 c. à s. huile
+- Sel, poivre, oignon
+
+Exemple : pour 4 personnes → 8 plantains, 200 g viande.
+
+Préparation :
+1. Éplucher, couper plantains, cuire vapeur 15 min.
+2. Faire revenir viande + oignon + huile.
+3. Ajouter plantains, écraser légèrement et servir chaud.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://explorers.kitchen/wp-content/uploads/2016/01/Congo-Moambe-Chicken-3.jpg" alt="">
+    <h4>Poulet Moambe (Congo)</h4>
+    <p>Ingrédients par personne :
+- 120 g poulet
+- 2 c. à s. pâte d’arachide
+- 1 c. à s. huile de palme
+- Sel, poivre, oignon
+- Eau
+
+Exemple : pour 4 personnes → 480 g poulet, 8 c. à s. pâte d’arachide.
+
+Préparation :
+1. Cuire poulet + oignon + sel dans huile de palme.
+2. Ajouter pâte d’arachide + un peu d’eau, mijoter 20 min.
+3. Servir chaud avec riz ou fufu.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+<div class="card">
+    <img src="https://www.tastingtable.com/img/gallery/egusi-is-the-hearty-nigerian-soup-you-should-know/l-intro-1667997223.jpg" alt="">
+    <h4>Egusi Soup (Nigeria)</h4>
+    <p>Ingrédients par personne :
+- 50 g graines de melon moulues (egusi)
+- 50 g légumes verts (épinards, ugu)
+- 50 g viande ou poisson
+- 1 c. à s. huile de palme
+- Sel, piment, oignon
+
+Exemple : pour 4 personnes → 200 g egusi, 200 g légumes, 200 g viande.
+
+Préparation :
+1. Cuire viande + oignon + sel.
+2. Ajouter huile de palme + egusi, remuer 5 min.
+3. Ajouter légumes verts, cuire 10 min.
+4. Servir chaud avec fufu ou yam.
+</p>
+<button class="view-btn">Voir la recette</button>
+
+</div>
+
+        <div class="card">
+            <img src="https://gradfood.com/wp-content/uploads/2020/09/Moroccan-Chicken-Pastilla-scaled.jpg" alt="">
+            <h4>pastilla marocaine</h4>
+            <p>Ingrédients par personne :
+
+120 g poulet
+
+½ oignon
+
+1 œuf
+
+15 g amandes concassées
+
+1 c. à s. sucre glace
+
+1 pincée cannelle
+
+2 feuilles de brick
+
+1 c. à s. beurre fondu
+
+Sel, poivre
+
+Épices (gingembre, curcuma, safran ou ras el hanout)
+
+Exemple : pour 4 personnes → 480 g poulet, 2 oignons, 4 œufs, 8 feuilles de brick…
+
+Préparation rapide :
+
+Dorer le poulet dans l’huile, saler, poivrer, réserver.
+
+Faire revenir l’oignon, ajouter épices + eau, remettre le poulet, laisser réduire de moitié.
+
+Effilocher le poulet.
+
+Ajouter les œufs dans la sauce chaude, mélanger (ça fait des œufs brouillés).
+
+Mélange amandes : amandes + sucre glace + cannelle.
+
+Montage : bricks + beurre → poulet → œufs → amandes → refermer.
+
+Four 180°C, 20 min jusqu’à doré.
+
+Finition : sucre glace + cannelle.</p>
+<button class="view-btn">Voir la recette</button>
+
+        </div>
+    </div>
+</div>
+
+<!-- RECOMMANDATIONS SECTION -->
+<div class="section" id="recommendations">
+    <h3>Recommandations IA</h3>
+    <div class="cards-container">
+        <div class="card">
+            <img src="https://i.ytimg.com/vi/cbAf7Nmtvig/maxresdefault.jpg" alt="">
+            <h4>Eru</h4>
+            <p>Notre IA vous recommande cette recette en fonction de vos préférences: Ingrédients par personne :
+
+100 g feuilles d’eru (ou okok)
+
+50 g waterleaf (ou épinards)
+
+50 g viande (bœuf, chèvre ou poisson fumé)
+
+20 g kanda (peau de bœuf, facultatif)
+
+1 c. à s. huile de palme
+
+1 petite crevette sèche pilée (ou poisson sec)
+
+Sel, piment
+
+Exemple : pour 4 personnes → 400 g eru, 200 g waterleaf, 200 g viande, 4 c. à s. huile de palme…
+
+Préparation rapide :
+
+Cuire viande + kanda avec sel et un peu d’eau (30–45 min).
+
+Ajouter poisson sec/crevettes, puis waterleaf, laisser fondre 5 min.
+
+Ajouter eru + huile de palme, remuer et cuire encore 10 min.
+
+Rectifier sel/piment et servir chaud avec fufu, water fufu ou gari.</p>
+<button class="view-btn">Voir la recette</button>
+
+        </div>
+        <div class="card">
+            <img src="https://bonappetitfrancais.com/wp-content/uploads/2023/10/Comment-faire-le-koki-camerounais-recette-traditionnelle-et-astuces.jpg" alt="">
+            <h4>KOKI</h4>
+            <p>Essayez cette recette que notre IA a sélectionnée pour vous: Ingrédients par personne :
+
+100 g haricots (niébé)
+
+1 c. à s. huile de palme
+
+1 c. à c. huile rouge chaude (pour la couleur)
+
+½ oignon
+
+Sel
+
+Piment (facultatif)
+
+Feuilles de bananier (ou papier cuisson)
+
+Exemple : pour 4 personnes → 400 g haricots, 4 c. à s. huile de palme, 2 oignons…
+
+Préparation rapide :
+
+Tremper + mixer les haricots décortiqués avec oignon, sel, piment.
+
+Ajouter huile de palme + huile rouge, bien mélanger.
+
+Verser dans feuilles, bien fermer.
+
+Cuire à la vapeur 45–60 min.
+
+Servir avec plantain, manioc</p>
+<button class="view-btn">Voir la recette</button>
+
+        </div>
+    </div>
+</div>
+<script>
+document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const card = btn.closest('.card'); // récupère la carte parente
+        const title = card.querySelector('h4').innerText;
+        const description = card.querySelector('p').innerHTML; // on conserve les <br>
+        const image = card.querySelector('img').src;
+
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalDescription').innerHTML = description;
+        document.getElementById('modalImage').src = image;
+
+        document.getElementById('recipeModal').style.display = 'block';
+    });
+});
+
+function closeRecipeModal() {
+    document.getElementById('recipeModal').style.display = 'none';
+}
+</script>
+
+<!-- FOOTER -->
+<footer>
+    &copy; <strong> 2026 Smart Recipe Hub </strong>  by <strong> franck joel nzokou </strong>  | <a href="login.html">Connexion</a> | <a href="register.html">Créer un compte</a>
+</footer>
+
+</body>
+</html>
