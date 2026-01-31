@@ -109,6 +109,36 @@ Ce guide explique comment lancer tout le projet sur un ordinateur.
 
 Cela permet de récupérer tous les fichiers du projet :
 
+git clone https://github.com/franck123-ing-web/smart-recipe-hub-doc.git
+cd smart-recipe-hub-doc
+
+## Étape 2 – Lancer toute l’application
+
+Toutes les parties du projet (site, serveur, base de données…) sont lancées avec une seule commande :
+
+docker compose up -d
+
+Docker va automatiquement :
+
+Télécharger les images
+
+Démarrer la base de données
+
+Démarrer le backend
+
+Démarrer le frontend
+
+Démarrer le proxy
+
+## Étape 3 – Accéder aux services
+
+| Service                   | Adresse                                        |
+| ------------------------- | ---------------------------------------------- |
+| Application Web           | [http://localhost](http://localhost)           |
+| API Backend               | [http://localhost/api](http://localhost/api)   |
+| Base de données (Adminer) | [http://localhost:8080](http://localhost:8080) |
+
+
 
 
 
