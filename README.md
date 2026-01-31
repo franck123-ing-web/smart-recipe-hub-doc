@@ -62,8 +62,11 @@ Le frontend (site web) communique avec le backend via une API moderne.
 
 ## Screenshot de l'application déployée : 
 <img width="938" height="418" alt="image page accueil" src="https://github.com/user-attachments/assets/7a260657-a8c3-4527-b88e-3060518eb032" />
+
 <img width="938" height="423" alt="image dashboard" src="https://github.com/user-attachments/assets/defe2b2f-8dc9-4342-b770-4c134d87e02c" />
+
 <img width="851" height="444" alt="images inscription" src="https://github.com/user-attachments/assets/273e63a3-e762-4309-8596-b6e7994a8a2a" />
+
 <img width="839" height="434" alt="image connexion" src="https://github.com/user-attachments/assets/a5fcc08e-22bc-469a-8beb-361a7d2a7453" />
 
 
@@ -110,6 +113,7 @@ Ce guide explique comment lancer tout le projet sur un ordinateur.
 Cela permet de récupérer tous les fichiers du projet :
 
 git clone https://github.com/franck123-ing-web/smart-recipe-hub-doc.git
+
 cd smart-recipe-hub-doc
 
 ## Étape 2 – Lancer toute l’application
@@ -232,6 +236,7 @@ Correction du calcul TF-IDF et du tri des similarités
 Les modales n’étaient pas défilables
 ## Solution
 Ajout de max-height et overflow-y:auto
+
 
 
 
