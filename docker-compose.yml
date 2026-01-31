@@ -2,42 +2,82 @@ version: "3.9"
 
 services:
 
-  cloudflare:
-    image: cloudflare/cloudflared:latest
-    container_name: smart-recipe-cloudflare
-    command: proxy-dns
-    restart: unless-stopped
 
+ 
+  db:
+    image: mysql:8
+    container_name: smartrecipe-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: smartrecipe
+      MYSQL_USER: smartuser
+      MYSQL_PASSWORD: smartpass
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  
+  adminer:
+    image: adminer
+    container_name: smartrecipe-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: smart-recipe-backend
+    container_name: smartrecipe-backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=smartrecipe
+      - DATABASE_USER=smartuser
+      - DATABASE_PASSWORD=smartpass
+    depends_on:
+      - db
     expose:
       - "8000"
-    environment:
-      - PYTHONUNBUFFERED=1
-      - TZ=Europe/Paris
-    restart: unless-stopped
 
+  
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: smart-recipe-frontend
-    expose:
-      - "80"
+    container_name: smartrecipe-frontend
     restart: unless-stopped
+    expose:
+      - "5173"
 
+  
   proxy:
     image: caddy:2
-    container_name: smart-recipe-proxy
+    container_name: smartrecipe-proxy
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
       - ./proxy/Caddyfile:/etc/caddy/Caddyfile
     depends_on:
-      - cloudflare
-      - backend
       - frontend
+      - backend
+
+  
+  tunnel:
+    image: cloudflare/cloudflared
+    container_name: smartrecipe-tunnel
     restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=YOUR_CLOUDFLARE_TOKEN
+    depends_on:
+      - proxy
+
+volumes:
+  db_data:

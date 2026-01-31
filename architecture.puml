@@ -1,33 +1,39 @@
 @startuml
-!theme plain
+title SmartRecipeHub - Architecture Technique
 
-title Smart Recipe Hub – DevOps Architecture
+skinparam rectangle {
+  BackgroundColor #f5f5f5
+  BorderColor #333
+}
 
-actor User
+actor "Utilisateur\n(Navigateur Web)" as User
 
 cloud "Internet" {
-  rectangle "Cloudflare Tunnel\n(cloudflared)" as CF
+  node "Cloudflare Tunnel\n(cloudflared)" as Tunnel
 }
 
-node "Local Machine" {
+node "Serveur Docker" {
 
-  node "Reverse Proxy" {
-    rectangle "Caddy\n(Port 80 / 443)" as Caddy
-  }
+  node "Reverse Proxy\nCaddy" as Proxy
 
-  node "Frontend" {
-    rectangle "Smart Recipe Hub UI\n(HTML / CSS / JS)" as Frontend
-  }
+  node "Frontend\nReact + Vite" as Frontend
 
-  node "Backend" {
-    rectangle "FastAPI API\n+ IA Recommandation" as Backend
-  }
+  node "Backend\nFastAPI (Python)" as Backend
+
+  database "Base de données\nMySQL" as DB
+
+  node "Adminer\n(Gestion DB)" as Adminer
 }
 
-User --> CF : HTTPS
-CF --> Caddy : Tunnel sécurisé
-Caddy --> Frontend : Sert les pages web
-Caddy --> Backend : /api/*
-Frontend --> Backend : Requêtes API
+User --> Tunnel : Accède au site
+Tunnel --> Proxy : Transmet les requêtes
+
+Proxy --> Frontend : Pages web
+Proxy --> Backend : API REST (/api)
+
+Frontend --> Backend : Requêtes (recettes, login, favoris)
+Backend --> DB : Stockage & lecture des données
+
+Adminer --> DB : Gestion manuelle des données
 
 @enduml

@@ -1,11 +1,12 @@
 :80 {
-    # Reverse proxy pour l'API
+
+    # Toutes les requêtes /api vont vers le backend FastAPI
     handle_path /api/* {
-        reverse_proxy smart-recipe-backend:8000
+        reverse_proxy smartrecipe-backend:8000
     }
 
-    # Frontend servi par Caddy
+    # Tout le reste va vers le frontend React
     handle {
-        reverse_proxy smart-recipe-frontend:80
+        reverse_proxy smartrecipe-frontend:5173
     }
 }
