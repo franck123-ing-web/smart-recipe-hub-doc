@@ -66,7 +66,8 @@ Le frontend (site web) communique avec le backend via une API moderne.
 ## 2. Architecture Technique
 Schéma d'infrastructure
 
-![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub/main/architecture.puml)
+![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub-doc/main/architecture.puml)
+
 
 
 
