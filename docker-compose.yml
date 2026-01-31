@@ -6,11 +6,11 @@ services:
  
   db:
     image: mysql:8
-    container_name: smartrecipe-db
+    container_name: smart_recipe_db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: smartrecipe
+      MYSQL_DATABASE: smart_recipe_db
       MYSQL_USER: smartuser
       MYSQL_PASSWORD: smartpass
     volumes:
@@ -37,7 +37,7 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_HOST=db
-      - DATABASE_NAME=smartrecipe
+      - DATABASE_NAME=smart_recipe_db
       - DATABASE_USER=smartuser
       - DATABASE_PASSWORD=smartpass
     depends_on:
