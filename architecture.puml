@@ -1,0 +1,33 @@
+@startuml
+!theme plain
+
+title Smart Recipe Hub – DevOps Architecture
+
+actor User
+
+cloud "Internet" {
+  rectangle "Cloudflare Tunnel\n(cloudflared)" as CF
+}
+
+node "Local Machine" {
+
+  node "Reverse Proxy" {
+    rectangle "Caddy\n(Port 80 / 443)" as Caddy
+  }
+
+  node "Frontend" {
+    rectangle "Smart Recipe Hub UI\n(HTML / CSS / JS)" as Frontend
+  }
+
+  node "Backend" {
+    rectangle "FastAPI API\n+ IA Recommandation" as Backend
+  }
+}
+
+User --> CF : HTTPS
+CF --> Caddy : Tunnel sécurisé
+Caddy --> Frontend : Sert les pages web
+Caddy --> Backend : /api/*
+Frontend --> Backend : Requêtes API
+
+@enduml
