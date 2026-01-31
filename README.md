@@ -35,4 +35,11 @@ Interface web moderne
 ## Screenshot de l'application déployée : 
 <img width="938" height="418" alt="image page accueil" src="https://github.com/user-attachments/assets/7a260657-a8c3-4527-b88e-3060518eb032" />
 
+## 2. Architecture Technique
+Schéma d'infrastructure
+
+[Ce schéma est généré dynamiquement à partir du fichier architecture.puml présent dans ce dépôt.
+](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub/main/architecture.puml
+)
+
 
