@@ -138,6 +138,101 @@ Démarrer le proxy
 | API Backend               | [http://localhost/api](http://localhost/api)   |
 | Base de données (Adminer) | [http://localhost:8080](http://localhost:8080) |
 
+## Étape 4 – Obtenir l’URL publique
+
+Pour voir le lien Internet généré par Cloudflare :
+
+docker compose logs -f tunnel
+
+Tu verras une URL du type :
+https://random-name.trycloudflare.com
+
+## 4. Méthodologie & Transparence IA
+
+## Organisation
+J'ai travaillé en solo :
+
+Franck Joel : développement du backend, frontend, BD, IA et Docker
+
+Le projet a été découpé en plusieurs étapes :
+
+Conception de l’idée
+
+Architecture technique
+
+Développement backend
+
+Développement frontend
+
+Dockerisation
+
+Tests
+
+Documentation
+
+## Utilisation de l’IA
+
+## Outils utilisés : ChatGPT
+
+Usage :
+
+## Génération de code
+J'ai utilisé l’IA pour générer la structure de base du backend FastAPI et du frontend React.
+
+## Débogage
+L’IA m'a aidé à comprendre des erreurs Docker, des problèmes de connexion entre les services, et des bugs API.
+
+## Documentation
+L’IA a aidé à reformuler les explications pour qu’elles soient claires.
+
+## Apprentissage
+L’IA ne faisait pas le projet à ma place :
+
+J'ai compris :
+
+Comment fonctionne Docker
+
+Comment Docker connecte plusieurs services
+
+Comment marche un reverse proxy
+
+## 5. Difficultés rencontrées & Solutions
+
+## Problème :
+Le frontend n’arrivait pas à communiquer avec le backend
+## Solution :
+Correction des URLs et du réseau Docker
+
+## Problème :
+La base de données se vidait à chaque redémarrage
+## Solution :
+Ajout d’un volume Docker pour rendre les données persistantes
+
+## Problème :
+Cloudflared ne donnait pas d’URL publique
+## Solution :
+Correction du token et du service tunnel dans Docker Compose
+
+# Problème 
+Les nouveaux utilisateurs ne voyaient pas les recettes
+## Solution
+Les recettes ont été rendues globales et non liées à un utilisateur
+
+## Problème 
+Erreur 502 Bad Gateway avec Cloudflare.
+## Solution
+L’API n’était pas lancée. Il fallait exécuter uvicorn avant Cloudflared
+
+## Problème 
+Les recommandations IA ne s’affichaient pas
+## Solution
+Correction du calcul TF-IDF et du tri des similarités
+
+## Problème
+Les modales n’étaient pas défilables
+## Solution
+Ajout de max-height et overflow-y:auto
+
 
 
 
