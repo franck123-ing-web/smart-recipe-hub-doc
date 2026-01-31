@@ -74,6 +74,42 @@ Schéma d'infrastructure
 
 ![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub-doc/main/architecture.puml)
 
+## Description des services
+| Service      | Image Docker   | Rôle                                                               | Port Interne |
+| ------------ | -------------- | ------------------------------------------------------------------ | ------------ |
+| **Proxy**    | `caddy:latest` | Sert de point d’entrée et redirige le trafic vers le bon service   | 80           |
+| **Frontend** | `node:18`      | Application React affichée à l’utilisateur                         | 5173         |
+| **Backend**  | `python:3.11`  | API FastAPI qui gère les recettes, utilisateurs et recommandations | 8000         |
+| **DB**       | `mysql:8`      | Stocke les utilisateurs et les recettes                            | 3306         |
+| **Adminer**  | `adminer`      | Interface web pour gérer la base de données                        | 8080         |
+| **Tunnel**   | `cloudflared`  | Rend le site accessible depuis Internet                            | N/A          |
+
+
+## Comment ça fonctionne
+L’utilisateur ouvre le site depuis Internet.
+
+Cloudflared reçoit la requête.
+
+Caddy (le proxy) décide où envoyer la requête :
+
+vers le frontend pour afficher le site
+
+vers le backend pour traiter les données
+
+Le backend communique avec la base de données MySQL.
+
+Le résultat est renvoyé au navigateur de l’utilisateur
+
+
+## 3. Guide d'installation
+
+Ce guide explique comment lancer tout le projet sur un ordinateur.
+
+## Étape 1 – Cloner le projet
+
+Cela permet de récupérer tous les fichiers du projet :
+
+
 
 
 
