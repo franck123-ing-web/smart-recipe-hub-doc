@@ -6,28 +6,56 @@
 
 ## 1. Présentation du Projet
 
-Smart Recipe Hub est une application web intelligente qui permet aux utilisateurs de découvrir, rechercher et gérer des recettes de cuisine de manière moderne, tout en bénéficiant de recommandations automatiques basées sur l’Intelligence Artificielle.
+SmartRecipeHub est une application web intelligente de gestion de recettes de cuisine.
+Elle permet aux utilisateurs de chercher, créer et gérer leurs propres recettes, tout en recevant des suggestions automatiques basées sur leurs goûts et les ingrédients qu’ils possèdent.
 
-Le projet est conçu comme une application complète :
-l’application tourne dans des conteneurs, est servie via un reverse-proxy, et peut être rendue accessible publiquement via Cloudflare Tunnel.
+L’objectif est de créer une plateforme simple, pratique et moderne pour aider les utilisateurs à mieux cuisiner, éviter le gaspillage alimentaire et découvrir de nouvelles idées de plats.
 
-L’objectif pédagogique du projet est de montrer comment une application moderne peut être :
+Concrètement, un utilisateur peut :
 
-développée, conteneurisée, exposée sur Internet, et maintenue facilement.
+Taper les ingrédients qu’il a dans son frigo
+
+Voir les recettes possibles
+
+Enregistrer ses recettes préférées
+
+Et recevoir des recommandations adaptées à ses habitudes
 
 ## Fonctionnalités principales
 
-Inscription et connexion des utilisateurs
+Création, modification et suppression de recettes (CRUD)
+L’utilisateur peut ajouter ses propres recettes, les modifier ou les supprimer.
 
-Liste de recettes partagée entre tous les utilisateurs
+Recherche intelligente
+Possibilité de rechercher des recettes par :
 
-Ajouter, modifier, supprimer, annuler et actualiser une recette
+Nom
 
-Recherche intelligente par ingrédients
+Ingrédients
 
-Système de recommandations IA basé sur le contenu des recettes
+Tags (végétarien, dessert, rapide, etc.)
 
-Interface web moderne
+Suggestions automatiques de recettes
+Le système analyse :
+
+Les recettes consultées
+
+Les ingrédients utilisés
+
+Les préférences
+Pour proposer des recettes pertinentes.
+
+Compte utilisateur
+Connexion avec email et mot de passe pour :
+
+Sauvegarder ses recettes
+
+Retrouver son historique
+
+Avoir des recommandations personnalisées
+
+API REST
+Le frontend (site web) communique avec le backend via une API moderne.
 
  ## Exposition publique via Cloudflare Tunnel:
 
