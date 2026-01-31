@@ -38,8 +38,7 @@ Interface web moderne
 ## 2. Architecture Technique
 Schéma d'infrastructure
 
-[Ce schéma est généré dynamiquement à partir du fichier architecture.puml présent dans ce dépôt.
-](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub/main/architecture.puml
-)
+![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/franck123-ing-web/smart-recipe-hub/main/architecture.puml)
+
 
 
