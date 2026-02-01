@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Réinitialiser</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{
+    font-family:Poppins;
+    background:linear-gradient(135deg,#ffecd2,#fcb69f);
+    height:100vh;display:flex;align-items:center;justify-content:center;
+}
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    width:360px;
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+    text-align:center;
+}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:15px;}
+button{
+    width:100%;padding:12px;border:none;border-radius:50px;
+    background:#6a11cb;color:white;font-weight:600;cursor:pointer;
+}
+.msg{margin-top:10px;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Nouveau mot de passe</h2>
+    <input type="password" id="password" placeholder="Nouveau mot de passe">
+    <button onclick="resetPass()">Réinitialiser</button>
+    <div class="msg" id="msg"></div>
+</div>
+
+<script>
+const params=new URLSearchParams(window.location.search);
+const token=params.get("token");
+
+function resetPass(){
+    const password=document.getElementById("password").value;
+    const form=new FormData();
+    form.append("token",token);
+    form.append("password",password);
+
+    fetch("${API_BASE}/reset",{
+        method:"POST",
+        body:form
+    })
+    .then(r=>r.json())
+    .then(d=>{
+        document.getElementById("msg").innerText=d.message;
+        if(d.success){
+            setTimeout(()=>window.location="login.html",2000);
+        }
+    });
+}
+</script>
+</body>
+</html>

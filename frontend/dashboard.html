@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Smart Recipe Hub - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+
+/* --- BODY --- */
+body, html {
+    height:100%;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 50px;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position:sticky;
+    top:0;
+    z-index:10;
+    border-radius:0 0 20px 20px;
+}
+.navbar h1 { font-size:24px; color:#333; }
+.navbar .logout {
+    background: #ff7e5f;
+    color:#fff;
+    padding:8px 20px;
+    border-radius:50px;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+.navbar .logout:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+/* --- CONTAINER --- */
+.container {
+    padding:40px 50px;
+    display:grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    gap:25px;
+}
+
+/* --- CARD --- */
+.card {
+    background: rgba(255,255,255,0.95);
+    border-radius:20px;
+    padding:20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    position: relative;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+.card img {
+    width:100%;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+.card h3 { font-size:18px; margin-bottom:10px; color:#333; }
+.card p { font-size:14px; color:#555; }
+
+/* --- CARD BUTTONS --- */
+.card button {
+    padding:5px 10px;
+    margin-right:5px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:12px;
+    transition:0.3s;
+}
+.edit-btn { background:#57c7d4; color:#fff; }
+.edit-btn:hover { transform: translateY(-2px); box-shadow:0 3px 10px rgba(0,0,0,0.2);}
+.delete-btn { background:#ff6b6b; color:#fff; }
+.delete-btn:hover { transform: translateY(-2px); box-shadow:0 3px 10px rgba(0,0,0,0.2);}
+
+/* --- ADD RECIPE FORM --- */
+#addRecipeForm {
+    background: rgba(255,255,255,0.95);
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    margin-bottom:30px;
+}
+#addRecipeForm input, #addRecipeForm textarea {
+    width:100%;
+    margin-bottom:10px;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:14px;
+}
+#addRecipeForm button {
+    background:#6a11cb;
+    color:#fff;
+    padding:10px 20px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+}
+.navbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar .logo {
+    width: 60px;  
+    height: 60px;
+    background: url('logo.jpg') no-repeat center/contain;
+    border-radius: 50%;
+}
+
+#addRecipeForm button:hover {
+    transform: translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* --- RESPONSIVE --- */
+@media(max-width:768px){
+    .navbar { padding:15px 20px; }
+    .container { padding:20px; gap:15px; }
+}
+#searchForm{
+    margin: 30px 50px 20px; /* espace avec la navbar */
+    padding: 15px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+</style>
+</head>
+<div id="recommendModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:50;">
+    <div style="
+    background:white;
+    width:80%;
+    max-width:700px;
+    margin:80px auto;
+    padding:20px;
+    border-radius:20px;
+    max-height:70vh;
+    overflow-y:auto;
+">
+
+        <h2>🍽️ Recommandations IA</h2>
+        <div id="recommendList"></div>
+        <button onclick="closeRecommend()" style="margin-top:15px; background:#ff6b6b; color:white; padding:8px 15px; border:none; border-radius:20px;">
+            Fermer
+        </button>
+    </div>
+</div>
+<div id="recipeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:100;">
+    <div style="
+        background:white;
+        width:90%;
+        max-width:900px;
+        height:90vh;
+        margin:30px auto;
+        padding:30px;
+        border-radius:20px;
+        overflow-y:auto;
+        position: relative;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    ">
+        <h2 id="modalTitle" style="margin-bottom:20px;"></h2>
+        <img id="modalImage" src="" style="width:100%; max-height:300px; object-fit:cover; border-radius:15px; margin-bottom:20px;">
+        <p id="modalDescription" style="font-size:16px; line-height:1.6;"></p>
+        <button onclick="closeRecipeModal()" style="
+            margin-top:20px;
+            background:#ff6b6b;
+            color:white;
+            padding:10px 20px;
+            border:none;
+            border-radius:25px;
+            cursor:pointer;
+            font-size:16px;
+        ">
+            Fermer
+        </button>
+    </div>
+</div>
+
+<body>
+<div class="navbar">
+    
+    <div class="brand">
+    <div class="logo"></div>
+    <h1>Smart Recipe Hub</h1>
+</div>
+
+    <div>
+        <button onclick="refreshDashboard()" style="margin-right:10px; padding:8px 20px; border-radius:50px; border:none; background:#2575fc; color:#fff; cursor:pointer;">
+    Actualiser
+</button>
+
+        <button class="logout" onclick="logout()">Déconnexion</button>
+    </div>
+</div>
+
+<div id="searchForm" style="margin-bottom:20px;">
+    <input type="text" id="searchInput" placeholder="Ex: tomate, oeuf, fromage" style="width:60%; padding:10px; border-radius:10px; border:1px solid #ddd;" onkeypress="handleSearch(event)">
+    <button onclick="searchRecipes()" style="padding:10px 20px; border:none; border-radius:50px; background:#2575fc; color:#fff; cursor:pointer;">Rechercher</button>
+</div>
+
+<div id="addRecipeForm">
+    <h3 id="formTitle">Ajouter une recette</h3>
+    <input type="text" id="title" placeholder="Titre de la recette">
+    <textarea id="description" placeholder="Description"></textarea>
+    <input type="text" id="image_url" placeholder="URL de l'image">
+    <button id="submitBtn">Ajouter</button>
+
+    <button id="cancelEditBtn" onclick="cancelEdit()" style="display:none; margin-left:10px;">Annuler</button>
+</div>
+
+<div class="container" id="recipeContainer">
+    <!-- Recettes dynamiques -->
+</div>
+
+<script>
+// --- USER INFO ---
+const userId = localStorage.getItem("userId");
+let editingRecipeId = null;
+
+if(!userId){
+    window.location.href = "login.html"; // redirection si pas connecté
+}
+
+
+function viewRecipe(id) {
+    // On récupère la recette correspondante
+    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+        const recipe = data.recipes.find(r => r.id === id);
+        if (!recipe) return;
+
+        // Remplir la modal
+        document.getElementById("modalTitle").innerText = recipe.title;
+        document.getElementById("modalDescription").innerText = recipe.description;
+        document.getElementById("modalImage").src = recipe.image_url || 'https://cdn-icons-png.flaticon.com/512/3081/3081808.png';
+
+        // Afficher modal
+        document.getElementById("recipeModal").style.display = "block";
+    });
+}
+
+function closeRecipeModal() {
+    document.getElementById("recipeModal").style.display = "none";
+}
+
+function handleSearch(e){
+    if(e.key === "Enter"){
+        searchRecipes();
+    }
+}
+
+function refreshDashboard() {
+    // Réinitialise le champ de recherche
+    document.getElementById("searchInput").value = "";
+
+    // Réinitialise le formulaire d'ajout / édition
+    resetForm();
+
+    // Recharge toutes les recettes
+    loadRecipes();
+}
+function searchRecipes(){
+    const ingredients = document.getElementById("searchInput").value;
+
+    if(!ingredients){
+        loadRecipes();
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8000/recipes/search?ingredients=${encodeURIComponent(ingredients)}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            renderRecipes(data.recipes);
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+// --- FETCH RECIPES ---
+function loadRecipes(){
+    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            renderRecipes(data.recipes);
+        }
+    })
+    .catch(err => console.error(err));
+}
+// --- DELETE RECIPE ---
+function deleteRecipe(id){
+    if(!confirm("Voulez-vous vraiment supprimer cette recette ?")) return;
+
+    const formData = new FormData();
+    formData.append("recipe_id", id);
+
+    fetch("http://127.0.0.1:8000/recipes/delete", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            alert(data.message);
+            loadRecipes();
+        } else {
+            alert("Erreur lors de la suppression");
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+function showRecommendations(id){
+    fetch(`http://127.0.0.1:8000/recipes/recommend/${id}`)
+    .then(res => res.json())
+    .then(data => {
+        if(!data.success) return alert("Aucune recommandation");
+
+        const list = document.getElementById("recommendList");
+        list.innerHTML = "";
+
+        data.recommended.forEach(r => {
+            const div = document.createElement("div");
+            div.style.marginBottom = "10px";
+            div.innerHTML = `
+                <b>${r.title}</b><br>
+                <small>${r.description}</small>
+                <hr>
+            `;
+            list.appendChild(div);
+        });
+
+        document.getElementById("recommendModal").style.display = "block";
+    });
+}
+
+function closeRecommend(){
+    document.getElementById("recommendModal").style.display = "none";
+}
+
+// --- ADD OR UPDATE RECIPE ---
+function submitRecipe() {
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const image_url = document.getElementById("image_url").value;
+
+    if (!title || !description) {
+        alert("Veuillez remplir tous les champs");
+        return;
+    }
+
+    const url = editingRecipeId 
+        ? "http://127.0.0.1:8000/recipes/update"
+        : "http://127.0.0.1:8000/recipes/add";
+
+    const body = editingRecipeId 
+        ? `recipe_id=${editingRecipeId}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image_url=${encodeURIComponent(image_url)}`
+        : `user_id=${userId}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&image_url=${encodeURIComponent(image_url)}`;
+
+    fetch(url, {
+        method: "POST",
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: body
+    }).then(res => res.json())
+      .then(data => {
+          if(data.success){
+              alert(data.message);
+              loadRecipes();
+              resetForm();
+          }
+      }).catch(err => console.error(err));
+}
+
+// Redirige le bouton “Ajouter” vers submitRecipe
+document.getElementById("submitBtn").onclick = submitRecipe;
+
+// --- EDIT RECIPE ---
+function editRecipe(id) {
+    // Récupérer la recette à modifier depuis le backend
+    fetch(`http://127.0.0.1:8000/recipes/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+        const recipe = data.recipes.find(r => r.id === id);
+        if (!recipe) return;
+
+        // Pré-remplir le formulaire
+        document.getElementById("title").value = recipe.title;
+        document.getElementById("description").value = recipe.description;
+        document.getElementById("image_url").value = recipe.image_url;
+
+        // Mode édition
+        editingRecipeId = id;
+        document.getElementById("formTitle").innerText = "Modifier la recette";
+        document.getElementById("submitBtn").innerText = "Modifier";
+        document.getElementById("cancelEditBtn").style.display = "inline-block";
+    });
+}
+
+// --- CANCEL EDIT ---
+function cancelEdit() {
+    resetForm();
+}
+
+function resetForm() {
+    editingRecipeId = null;
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image_url").value = "";
+    document.getElementById("formTitle").innerText = "Ajouter une recette";
+    document.getElementById("submitBtn").innerText = "Ajouter";
+    document.getElementById("cancelEditBtn").style.display = "none";
+}
+function renderRecipes(list){
+    const container = document.getElementById("recipeContainer");
+    container.innerHTML = "";
+
+    list.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+    <img src="${r.image_url || 'https://cdn-icons-png.flaticon.com/512/3081/3081808.png'}">
+    <h3>${r.title}</h3>
+    <p>${r.description}</p>
+
+    <button class="edit-btn" onclick="editRecipe(${r.id})">Modifier</button>
+    <button class="delete-btn" onclick="deleteRecipe(${r.id})">Supprimer</button>
+    <button class="edit-btn" style="background:#6a11cb" onclick="showRecommendations(${r.id})">
+        Voir recommandations
+    </button>
+    <button class="edit-btn" style="background:#2575fc" onclick="viewRecipe(${r.id})">
+        Voir la recette
+    </button>
+`;
+
+        container.appendChild(card);
+    });
+}
+
+// --- LOGOUT ---
+function logout(){
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userEmail");
+    window.location.href="login.html";
+}
+loadRecipes();
+</script>
+
+
+
+</body>
+</html>

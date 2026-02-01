@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Recipe Hub - Connexion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+
+        body, html {
+            height:100%;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .container {
+            position:relative;
+            width:400px;
+            padding:50px 40px;
+            background: rgba(255,255,255,0.95);
+            border-radius:15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow:hidden;
+        }
+
+        .container::before {
+            content:"";
+            position:absolute;
+            top:-50%;
+            left:-50%;
+            width:200%;
+            height:200%;
+            background: linear-gradient(45deg, #ff6a00, #ee0979, #00f260, #0575e6);
+            background-size: 400% 400%;
+            animation: animate 15s linear infinite;
+            z-index:0;
+            opacity:0.2;
+        }
+
+        @keyframes animate {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+.switch {
+    margin-top:15px;
+    text-align:center;
+}
+        .login-form {
+            position:relative;
+            z-index:1;
+        }
+
+        .login-form h1 {
+            text-align:center;
+            margin-bottom:30px;
+            color:#333;
+        }
+
+        .login-form .input-group {
+            position:relative;
+            margin-bottom:25px;
+        }
+
+        .login-form input {
+            width:100%;
+            padding:12px 20px;
+            border-radius:50px;
+            border:1px solid #ddd;
+            font-size:16px;
+            transition: all 0.3s;
+        }
+
+        .login-form input:focus {
+            border-color:#ff7e5f;
+            box-shadow: 0 0 5px rgba(255,126,95,0.5);
+            outline:none;
+        }
+
+        .login-form button {
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:50px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color:white;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition: all 0.3s;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,126,95,0.4);
+        }
+
+        .login-form .forgot {
+            text-align:right;
+            font-size:14px;
+            margin-top:10px;
+        }
+
+        .login-form .forgot a {
+            color:#ff7e5f;
+            text-decoration:none;
+            font-weight:500;
+        }
+
+        .login-form .forgot a:hover {
+            text-decoration:underline;
+        }
+
+        .logo {
+    display:block;
+    margin:0 auto 20px;
+    width:100px;  
+    height:100px;
+    background: url('logo.jpg') no-repeat center/contain;
+    background-size: contain;
+    border-radius:50%; 
+
+
+        @media(max-width:450px) {
+            .container { width:90%; padding:30px 20px; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <div class="logo"></div>
+            
+            <h1>Smart Recipe Hub</h1>
+     <h1>Se connecter</h1>
+           <form id="loginForm">
+    <div class="input-group">
+        <input type="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+        <input type="password" name="password" placeholder="Mot de passe" required>
+    </div>
+    <button type="submit">Se connecter</button>
+    <div class="forgot">
+        <a href="forgot.html">Mot de passe oublié ?</a>
+    </div>
+    <div class="switch">
+        <a href="register.html">Pas de compte ? Veuillez Créer un compte</a>
+    </div>
+</form>
+
+<script>
+const form = document.querySelector("form");
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const res = await fetch("http://127.0.0.1:8000/login", {
+        method:"POST",
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+    });
+    const data = await res.json();
+
+    if(data.success){
+        // Stocker les infos utilisateur pour le dashboard
+        localStorage.setItem("userId", data.user_id);
+        localStorage.setItem("userEmail", data.email);
+        window.location.href = "dashboard.html";
+    } else {
+        alert(data.message);
+    }
+});
+</script>
+
+
+        </div>
+    </div>
+</body>
+</html>
