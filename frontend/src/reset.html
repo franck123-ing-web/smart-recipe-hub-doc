@@ -36,26 +36,30 @@ button{
 </div>
 
 <script>
-const params=new URLSearchParams(window.location.search);
-const token=params.get("token");
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
 
-function resetPass(){
-    const password=document.getElementById("password").value;
-    const form=new FormData();
-    form.append("token",token);
-    form.append("password",password);
+const API_BASE = "http://127.0.0.1:8000";
 
-    fetch("${API_BASE}/reset",{
-        method:"POST",
-        body:form
-    })
-    .then(r=>r.json())
-    .then(d=>{
-        document.getElementById("msg").innerText=d.message;
-        if(d.success){
-            setTimeout(()=>window.location="login.html",2000);
-        }
-    });
+function resetPass() {
+    const password = document.getElementById("password").value;
+
+   const form = new FormData();
+form.append("token", token);
+form.append("password", password);
+
+fetch("http://127.0.0.1:8000/reset", {
+    method: "POST",
+    body: form
+})
+.then(r => r.json())
+.then(d => {
+    document.getElementById("msg").innerText = d.message;
+
+    if (d.success) {
+        setTimeout(() => window.location = "login.html", 2000);
+    }
+});
 }
 </script>
 </body>
