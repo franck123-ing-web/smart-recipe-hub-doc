@@ -1,8 +1,6 @@
 ## Nom du projet: Smart Recipe Hub
 
- Developper par : 
- 
-## Franck Joel nzokou  (Développement fullstack, IA, Docker)
+ Developper par moi Franck Joel nzokou
 
 ## 1. Présentation du Projet
 
